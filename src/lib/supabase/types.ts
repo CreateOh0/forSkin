@@ -7,6 +7,9 @@ export type CreditTransactionType = 'signup' | 'purchase' | 'rating' | 'streak' 
 
 export interface Database {
   public: {
+    Views: Record<string, never>
+    Functions: Record<string, never>
+    Enums: Record<string, never>
     Tables: {
       users: {
         Row: {
@@ -18,8 +21,25 @@ export interface Database {
           role: UserRole
           created_at: string
         }
-        Insert: Omit<Database['public']['Tables']['users']['Row'], 'created_at'> & { created_at?: string }
-        Update: Partial<Database['public']['Tables']['users']['Insert']>
+        Insert: {
+          id: string
+          email: string
+          name?: string | null
+          avatar_url?: string | null
+          preferred_locale?: Locale
+          role?: UserRole
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          name?: string | null
+          avatar_url?: string | null
+          preferred_locale?: Locale
+          role?: UserRole
+          created_at?: string
+        }
+        Relationships: []
       }
       analyses: {
         Row: {
@@ -35,8 +55,33 @@ export interface Database {
           prompt_version_id: string | null
           created_at: string
         }
-        Insert: Omit<Database['public']['Tables']['analyses']['Row'], 'id' | 'created_at'> & { id?: string; created_at?: string }
-        Update: Partial<Database['public']['Tables']['analyses']['Insert']>
+        Insert: {
+          id?: string
+          user_id?: string | null
+          session_token?: string | null
+          image_url?: string | null
+          thumbnail_url?: string | null
+          locale?: Locale
+          status?: AnalysisStatus
+          original_expires_at?: string | null
+          original_deleted_at?: string | null
+          prompt_version_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string | null
+          session_token?: string | null
+          image_url?: string | null
+          thumbnail_url?: string | null
+          locale?: Locale
+          status?: AnalysisStatus
+          original_expires_at?: string | null
+          original_deleted_at?: string | null
+          prompt_version_id?: string | null
+          created_at?: string
+        }
+        Relationships: []
       }
       analysis_results: {
         Row: {
@@ -53,13 +98,41 @@ export interface Database {
           raw_response: Json | null
           created_at: string
         }
-        Insert: Omit<Database['public']['Tables']['analysis_results']['Row'], 'id' | 'created_at'> & { id?: string; created_at?: string }
-        Update: Partial<Database['public']['Tables']['analysis_results']['Insert']>
+        Insert: {
+          id?: string
+          analysis_id: string
+          skin_type?: string | null
+          concerns?: Json
+          hydration_level?: number | null
+          overall_score?: number | null
+          diagnosis_text?: string | null
+          recommendations?: Json
+          comparison_data?: Json | null
+          feature_points?: Json
+          raw_response?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          analysis_id?: string
+          skin_type?: string | null
+          concerns?: Json
+          hydration_level?: number | null
+          overall_score?: number | null
+          diagnosis_text?: string | null
+          recommendations?: Json
+          comparison_data?: Json | null
+          feature_points?: Json
+          raw_response?: Json | null
+          created_at?: string
+        }
+        Relationships: []
       }
       credits: {
         Row: { id: string; user_id: string; balance: number }
-        Insert: Omit<Database['public']['Tables']['credits']['Row'], 'id'> & { id?: string }
-        Update: Partial<Database['public']['Tables']['credits']['Insert']>
+        Insert: { id?: string; user_id: string; balance?: number }
+        Update: { id?: string; user_id?: string; balance?: number }
+        Relationships: []
       }
       credit_transactions: {
         Row: {
@@ -71,8 +144,25 @@ export interface Database {
           admin_note: string | null
           created_at: string
         }
-        Insert: Omit<Database['public']['Tables']['credit_transactions']['Row'], 'id' | 'created_at'> & { id?: string; created_at?: string }
-        Update: Partial<Database['public']['Tables']['credit_transactions']['Insert']>
+        Insert: {
+          id?: string
+          user_id: string
+          amount: number
+          type: CreditTransactionType
+          reference_id?: string | null
+          admin_note?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          amount?: number
+          type?: CreditTransactionType
+          reference_id?: string | null
+          admin_note?: string | null
+          created_at?: string
+        }
+        Relationships: []
       }
       plans: {
         Row: {
@@ -86,8 +176,29 @@ export interface Database {
           sort_order: number
           created_at: string
         }
-        Insert: Omit<Database['public']['Tables']['plans']['Row'], 'id' | 'created_at'> & { id?: string; created_at?: string }
-        Update: Partial<Database['public']['Tables']['plans']['Insert']>
+        Insert: {
+          id?: string
+          name_ko: string
+          name_en: string
+          name_ja: string
+          credits: number
+          price: number
+          is_active?: boolean
+          sort_order?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name_ko?: string
+          name_en?: string
+          name_ja?: string
+          credits?: number
+          price?: number
+          is_active?: boolean
+          sort_order?: number
+          created_at?: string
+        }
+        Relationships: []
       }
     }
   }
