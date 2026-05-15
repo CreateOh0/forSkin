@@ -1,0 +1,34 @@
+{
+  "Nav": {
+    "analyze": "피부 분석",
+    "dashboard": "대시보드",
+    "profile": "프로필",
+    "login": "로그인",
+    "signup": "회원가입",
+    "logout": "로그아웃",
+    "credits": "크레딧"
+  },
+  "Landing": {
+    "title": "AI 피부 분석",
+    "subtitle": "얼굴 사진 한 장으로 전문적인 피부 진단을 받아보세요",
+    "cta": "무료로 시작하기"
+  },
+  "Auth": {
+    "email": "이메일",
+    "password": "비밀번호",
+    "name": "이름",
+    "login": "로그인",
+    "signup": "회원가입",
+    "loginWithGoogle": "구글로 로그인",
+    "noAccount": "계정이 없으신가요?",
+    "hasAccount": "이미 계정이 있으신가요?",
+    "forgotPassword": "비밀번호 찾기"
+  },
+  "Profile": {
+    "title": "프로필 설정",
+    "save": "저장",
+    "saved": "저장되었습니다",
+    "preferredLocale": "기본 언어",
+    "deleteAccount": "계정 삭제"
+  }
+}

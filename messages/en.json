@@ -1,0 +1,34 @@
+{
+  "Nav": {
+    "analyze": "Analyze",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "credits": "Credits"
+  },
+  "Landing": {
+    "title": "AI Skin Analysis",
+    "subtitle": "Get professional skin diagnostics from a single photo",
+    "cta": "Start for Free"
+  },
+  "Auth": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "login": "Login",
+    "signup": "Sign Up",
+    "loginWithGoogle": "Login with Google",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "forgotPassword": "Forgot password?"
+  },
+  "Profile": {
+    "title": "Profile Settings",
+    "save": "Save",
+    "saved": "Saved",
+    "preferredLocale": "Preferred Language",
+    "deleteAccount": "Delete Account"
+  }
+}

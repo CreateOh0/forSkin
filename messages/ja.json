@@ -1,0 +1,34 @@
+{
+  "Nav": {
+    "analyze": "肌分析",
+    "dashboard": "ダッシュボード",
+    "profile": "プロフィール",
+    "login": "ログイン",
+    "signup": "新規登録",
+    "logout": "ログアウト",
+    "credits": "クレジット"
+  },
+  "Landing": {
+    "title": "AI肌分析",
+    "subtitle": "1枚の写真でプロレベルの肌診断を受けましょう",
+    "cta": "無料で始める"
+  },
+  "Auth": {
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "name": "名前",
+    "login": "ログイン",
+    "signup": "新規登録",
+    "loginWithGoogle": "Googleでログイン",
+    "noAccount": "アカウントをお持ちでない方",
+    "hasAccount": "すでにアカウントをお持ちの方",
+    "forgotPassword": "パスワードを忘れた方"
+  },
+  "Profile": {
+    "title": "プロフィール設定",
+    "save": "保存",
+    "saved": "保存しました",
+    "preferredLocale": "表示言語",
+    "deleteAccount": "アカウント削除"
+  }
+}
