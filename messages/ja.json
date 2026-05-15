@@ -30,5 +30,42 @@
     "saved": "保存しました",
     "preferredLocale": "表示言語",
     "deleteAccount": "アカウント削除"
+  },
+  "Analyze": {
+    "title": "肌分析",
+    "subtitle": "顔写真を撮影して、肌状態の分析を受けましょう",
+    "creditInfo": "1回の分析につき1クレジットが消費されます",
+    "startCamera": "カメラを起動",
+    "capturePhoto": "撮影",
+    "retake": "撮り直す",
+    "startAnalysis": "分析開始",
+    "uploadPhoto": "写真をアップロード",
+    "orDivider": "または",
+    "guide1": "顔全体がフレームに収まるようにしてください",
+    "guide2": "明るい場所で撮影してください",
+    "guide3": "カメラを正面から見て目を開けてください",
+    "cameraError": "カメラへのアクセスが拒否されました。写真をアップロードしてください",
+    "uploading": "アップロード中...",
+    "analyzing": "分析リクエスト中...",
+    "insufficientCredits": "クレジットが不足しています。チャージしてからお試しください"
+  },
+  "Results": {
+    "title": "肌分析結果",
+    "statusPending": "分析を準備中...",
+    "statusValidating": "顔を認識しています...",
+    "statusProcessing": "肌状態を分析しています...",
+    "failed": "分析に失敗しました",
+    "failedDescription": "画像の品質が基準を満たしていませんでした。明るい場所で正面から撮り直してください。",
+    "retryAnalysis": "再分析する",
+    "skinScore": "肌スコア",
+    "skinType": "肌タイプ",
+    "hydrationLevel": "水分量",
+    "concerns": "肌の悩み",
+    "diagnosis": "診断",
+    "recommendations": "スキンケアルーティン",
+    "keyIngredients": "主要成分",
+    "comparedToPrevious": "前回比",
+    "improvement": "改善",
+    "disclaimer": "この分析結果は専門的な医療診断の代替ではなく、参考目的のみにご使用ください。"
   }
 }

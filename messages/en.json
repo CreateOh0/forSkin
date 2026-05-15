@@ -30,5 +30,42 @@
     "saved": "Saved",
     "preferredLocale": "Preferred Language",
     "deleteAccount": "Delete Account"
+  },
+  "Analyze": {
+    "title": "Skin Analysis",
+    "subtitle": "Take a photo to get your personalized skin analysis",
+    "creditInfo": "1 credit will be used per analysis",
+    "startCamera": "Start Camera",
+    "capturePhoto": "Take Photo",
+    "retake": "Retake",
+    "startAnalysis": "Analyze Skin",
+    "uploadPhoto": "Upload Photo",
+    "orDivider": "or",
+    "guide1": "Make sure your entire face fits in the frame",
+    "guide2": "Use good lighting — avoid shadows",
+    "guide3": "Look directly at the camera with eyes open",
+    "cameraError": "Camera access denied. Please upload a photo instead",
+    "uploading": "Uploading...",
+    "analyzing": "Submitting for analysis...",
+    "insufficientCredits": "Insufficient credits. Please top up to continue"
+  },
+  "Results": {
+    "title": "Skin Analysis Results",
+    "statusPending": "Preparing analysis...",
+    "statusValidating": "Detecting face...",
+    "statusProcessing": "Analyzing skin condition...",
+    "failed": "Analysis failed",
+    "failedDescription": "Your image didn't meet quality requirements. Please retake in good lighting facing the camera directly.",
+    "retryAnalysis": "Try Again",
+    "skinScore": "Skin Score",
+    "skinType": "Skin Type",
+    "hydrationLevel": "Hydration",
+    "concerns": "Concerns",
+    "diagnosis": "Diagnosis",
+    "recommendations": "Skincare Routine",
+    "keyIngredients": "Key Ingredients",
+    "comparedToPrevious": "vs last analysis",
+    "improvement": "improvement",
+    "disclaimer": "This analysis is not a substitute for professional medical diagnosis and should be used for reference only."
   }
 }

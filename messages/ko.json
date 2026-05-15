@@ -30,5 +30,42 @@
     "saved": "저장되었습니다",
     "preferredLocale": "기본 언어",
     "deleteAccount": "계정 삭제"
+  },
+  "Analyze": {
+    "title": "피부 분석",
+    "subtitle": "얼굴 사진을 촬영하여 피부 상태를 분석받으세요",
+    "creditInfo": "분석 1회에 크레딧 1개가 차감됩니다",
+    "startCamera": "카메라 시작",
+    "capturePhoto": "사진 촬영",
+    "retake": "다시 찍기",
+    "startAnalysis": "분석 시작",
+    "uploadPhoto": "사진 업로드",
+    "orDivider": "또는",
+    "guide1": "얼굴 전체가 화면에 들어오도록 해주세요",
+    "guide2": "밝은 조명 아래서 촬영해주세요",
+    "guide3": "정면을 바라보고 눈을 떠 주세요",
+    "cameraError": "카메라에 접근할 수 없습니다. 파일을 업로드해주세요",
+    "uploading": "업로드 중...",
+    "analyzing": "분석 요청 중...",
+    "insufficientCredits": "크레딧이 부족합니다. 충전 후 이용해주세요"
+  },
+  "Results": {
+    "title": "피부 분석 결과",
+    "statusPending": "분석 준비 중...",
+    "statusValidating": "얼굴을 인식하고 있습니다...",
+    "statusProcessing": "피부 상태를 분석하고 있습니다...",
+    "failed": "분석에 실패했습니다",
+    "failedDescription": "이미지 품질이 분석 기준을 충족하지 못했습니다. 밝은 곳에서 정면 사진을 다시 촬영해 주세요.",
+    "retryAnalysis": "다시 분석하기",
+    "skinScore": "피부 점수",
+    "skinType": "피부 타입",
+    "hydrationLevel": "수분도",
+    "concerns": "피부 고민",
+    "diagnosis": "진단",
+    "recommendations": "스킨케어 루틴 추천",
+    "keyIngredients": "핵심 성분",
+    "comparedToPrevious": "이전 대비",
+    "improvement": "개선",
+    "disclaimer": "본 분석 결과는 전문적인 의료 진단을 대체할 수 없으며, 참고용으로만 사용하십시오."
   }
 }
