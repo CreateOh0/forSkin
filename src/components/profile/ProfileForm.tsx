@@ -44,6 +44,7 @@ export function ProfileForm({ locale, profile }: Props) {
   }
 
   const handleDeleteAccount = async () => {
+    if (deleteConfirm !== deleteWord) return
     const formData = new FormData()
     formData.set('locale', locale)
     await deleteAccount(formData)

@@ -17,16 +17,23 @@ export function RatingModal({ analysisId, categories, onClose }: Props) {
   const [comments, setComments] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleSubmit = async () => {
     setLoading(true)
+    setSubmitError(null)
     const formData = new FormData()
     formData.set('analysisId', analysisId)
     for (const [cat, rating] of Object.entries(ratings)) {
       formData.set(`category_${cat}`, String(rating))
       if (comments[cat]) formData.set(`comment_${cat}`, comments[cat])
     }
-    await submitRating(formData)
+    const result = await submitRating(formData)
+    if (result?.error) {
+      setSubmitError(result.error)
+      setLoading(false)
+      return
+    }
     setDone(true)
     setLoading(false)
     setTimeout(onClose, 1000)
@@ -72,6 +79,7 @@ export function RatingModal({ analysisId, categories, onClose }: Props) {
                 </div>
               ))}
             </div>
+            {submitError && <p className="text-destructive text-sm mt-2">{submitError}</p>}
             <Button
               className="w-full mt-6"
               onClick={handleSubmit}
