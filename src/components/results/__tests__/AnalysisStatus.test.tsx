@@ -7,10 +7,6 @@ vi.mock('@/hooks/useAnalysisStatus', () => ({
   useAnalysisStatus: vi.fn().mockReturnValue({ status: 'validating' }),
 }))
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({ refresh: vi.fn() }),
-}))
-
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {

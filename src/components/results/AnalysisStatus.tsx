@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import { useAnalysisStatus } from '@/hooks/useAnalysisStatus'
 import { Loader2 } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
@@ -15,26 +14,13 @@ interface Props {
 
 export function AnalysisStatus({ analysisId, locale }: Props) {
   const t = useTranslations('Results')
-  const router = useRouter()
   const { status } = useAnalysisStatus(analysisId)
-  const navigatingRef = useRef(false)
 
   useEffect(() => {
     if (status !== 'completed') return
-    if (navigatingRef.current) return
-    navigatingRef.current = true
-
-    // Same-URL navigation does not re-run the RSC tree; refresh loads new server output.
-    router.refresh()
-
-    const fallback = window.setTimeout(() => {
-      window.location.reload()
-    }, 3000)
-
-    return () => {
-      window.clearTimeout(fallback)
-    }
-  }, [status, router])
+    const url = `${window.location.origin}/${locale}/results/${analysisId}`
+    window.location.replace(url)
+  }, [status, analysisId, locale])
 
   if (status === 'failed') {
     return (

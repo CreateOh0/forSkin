@@ -12,6 +12,28 @@ interface Props {
   params: Promise<{ locale: string; id: string }>
 }
 
+type Json = import('@/lib/supabase/types').Json
+
+type EmbeddedAnalysisResultRow = {
+  skin_type: string | null
+  overall_score: number | null
+  hydration_level: number | null
+  concerns: Json
+  diagnosis_text: string | null
+  comparison_data: Json
+  recommendations: Json
+}
+
+function firstEmbeddedAnalysisResult(raw: unknown): EmbeddedAnalysisResultRow | undefined {
+  if (raw == null) return undefined
+  if (Array.isArray(raw)) {
+    const row = raw[0]
+    return row && typeof row === 'object' ? (row as EmbeddedAnalysisResultRow) : undefined
+  }
+  if (typeof raw === 'object') return raw as EmbeddedAnalysisResultRow
+  return undefined
+}
+
 export default async function ResultsPage({ params }: Props) {
   const { locale, id } = await params
   const t = await getTranslations({ locale, namespace: 'Results' })
@@ -37,18 +59,7 @@ export default async function ResultsPage({ params }: Props) {
 
   if (!analysis || analysis.user_id !== user?.id) notFound()
 
-  type Json = import('@/lib/supabase/types').Json
-  const result = (analysis.analysis_results as unknown[])?.[0] as
-    | {
-        skin_type: string | null
-        overall_score: number | null
-        hydration_level: number | null
-        concerns: Json
-        diagnosis_text: string | null
-        comparison_data: Json
-        recommendations: Json
-      }
-    | undefined
+  const result = firstEmbeddedAnalysisResult(analysis.analysis_results)
 
   const isComplete = analysis.status === 'completed' && result != null
 
