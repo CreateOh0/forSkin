@@ -26,9 +26,9 @@ export async function Header({ locale }: Props) {
           {user ? (
             <>
               <Link href={`/${locale}/analyze`} className="text-sm hover:underline whitespace-nowrap px-1">{t('analyze')}</Link>
-              <Link href={`/${locale}/dashboard`} className="text-sm hover:underline whitespace-nowrap px-1 hidden sm:inline">{t('dashboard')}</Link>
+              <Link href={`/${locale}/dashboard`} className="text-sm hover:underline whitespace-nowrap px-1">{t('dashboard')}</Link>
               <span className="text-sm text-muted-foreground whitespace-nowrap px-1">{creditBalance} {t('credits')}</span>
-              <Link href={`/${locale}/profile`} className="text-sm hover:underline whitespace-nowrap px-1 hidden sm:inline">{t('profile')}</Link>
+              <Link href={`/${locale}/profile`} className="text-sm hover:underline whitespace-nowrap px-1">{t('profile')}</Link>
               <form action={logout.bind(null, locale)}>
                 <Button variant="ghost" size="sm" type="submit" className="whitespace-nowrap text-xs sm:text-sm">{t('logout')}</Button>
               </form>
