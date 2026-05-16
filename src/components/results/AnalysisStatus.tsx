@@ -21,6 +21,8 @@ export function AnalysisStatus({ analysisId, locale }: Props) {
   useEffect(() => {
     if (status === 'completed') {
       router.refresh()
+      // fallback: hard reload if refresh doesn't re-render within 3s
+      setTimeout(() => window.location.reload(), 3000)
     }
   }, [status, router])
 
