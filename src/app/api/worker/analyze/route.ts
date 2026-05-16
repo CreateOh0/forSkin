@@ -8,12 +8,12 @@ import { env } from '@/lib/env'
 import type { Locale } from '@/lib/ai/prompts'
 import type { AnalysisStatus, Json } from '@/lib/supabase/types'
 
-const receiver = new Receiver({
-  currentSigningKey: env.QSTASH_CURRENT_SIGNING_KEY,
-  nextSigningKey: env.QSTASH_NEXT_SIGNING_KEY,
-})
-
 export async function POST(req: NextRequest) {
+  const receiver = new Receiver({
+    currentSigningKey: env.QSTASH_CURRENT_SIGNING_KEY,
+    nextSigningKey: env.QSTASH_NEXT_SIGNING_KEY,
+  })
+
   const body = await req.text()
   const signature = req.headers.get('upstash-signature') ?? ''
 

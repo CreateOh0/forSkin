@@ -12,7 +12,7 @@ const envSchema = z.object({
   CRON_SECRET: z.string().min(1),
 })
 
-export const env = envSchema.parse({
+const raw = {
   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
@@ -22,4 +22,10 @@ export const env = envSchema.parse({
   QSTASH_CURRENT_SIGNING_KEY: process.env.QSTASH_CURRENT_SIGNING_KEY,
   QSTASH_NEXT_SIGNING_KEY: process.env.QSTASH_NEXT_SIGNING_KEY,
   CRON_SECRET: process.env.CRON_SECRET,
-})
+}
+
+// Skip strict validation during Next.js build — env vars not available at that phase
+export const env =
+  process.env.NEXT_PHASE === 'phase-production-build'
+    ? (envSchema.partial().parse(raw) as unknown as z.infer<typeof envSchema>)
+    : envSchema.parse(raw)
