@@ -38,30 +38,35 @@ describe('analyzeSkin', () => {
   it('parses valid JSON response from Claude', async () => {
     mockCreate.mockResolvedValue({
       content: [{ type: 'text', text: JSON.stringify(VALID_RESPONSE) }],
+      usage: { input_tokens: 100, output_tokens: 200 },
     })
 
     const { analyzeSkin } = await import('../analyze-skin')
     const result = await analyzeSkin('base64data', 'ko')
 
-    expect(result.skin_type).toBe('복합성')
-    expect(result.overall_score).toBe(72)
-    expect(result.recommendations).toHaveLength(5)
+    expect(result.result.skin_type).toBe('복합성')
+    expect(result.result.overall_score).toBe(72)
+    expect(result.result.recommendations).toHaveLength(5)
+    expect(result.usage.input_tokens).toBe(100)
+    expect(result.usage.output_tokens).toBe(200)
   })
 
   it('parses JSON wrapped in markdown code blocks', async () => {
     mockCreate.mockResolvedValue({
       content: [{ type: 'text', text: '```json\n' + JSON.stringify(VALID_RESPONSE) + '\n```' }],
+      usage: { input_tokens: 100, output_tokens: 200 },
     })
 
     const { analyzeSkin } = await import('../analyze-skin')
     const result = await analyzeSkin('base64data', 'ko')
 
-    expect(result.overall_score).toBe(72)
+    expect(result.result.overall_score).toBe(72)
   })
 
   it('throws on invalid schema', async () => {
     mockCreate.mockResolvedValue({
       content: [{ type: 'text', text: '{"skin_type": "복합성"}' }],
+      usage: { input_tokens: 100, output_tokens: 200 },
     })
 
     const { analyzeSkin } = await import('../analyze-skin')

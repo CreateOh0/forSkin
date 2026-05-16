@@ -26,7 +26,7 @@ const SkinAnalysisSchema = z.object({
 export async function analyzeSkin(
   imageBase64: string,
   locale: Locale
-): Promise<SkinAnalysisResult> {
+): Promise<{ result: SkinAnalysisResult; usage: { input_tokens: number; output_tokens: number } }> {
   const client = (Anthropic as unknown as AnthropicFactory)({ apiKey: env.ANTHROPIC_API_KEY })
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
@@ -54,5 +54,11 @@ export async function analyzeSkin(
   if (!jsonStr) throw new Error('Claude returned no parseable JSON')
 
   const parsed = JSON.parse(jsonStr)
-  return SkinAnalysisSchema.parse(parsed)
+  return {
+    result: SkinAnalysisSchema.parse(parsed),
+    usage: {
+      input_tokens: response.usage.input_tokens,
+      output_tokens: response.usage.output_tokens,
+    },
+  }
 }
