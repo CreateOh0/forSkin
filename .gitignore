@@ -40,3 +40,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+docs/superpowers/plans/2026-05-16-plan3-dashboard-auth-profile.md

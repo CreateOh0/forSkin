@@ -29,7 +29,7 @@ export async function Header({ locale }: Props) {
               <Link href={`/${locale}/dashboard`} className="text-sm hover:underline">{t('dashboard')}</Link>
               <span className="text-sm text-muted-foreground">{creditBalance} {t('credits')}</span>
               <Link href={`/${locale}/profile`} className="text-sm hover:underline">{t('profile')}</Link>
-              <form action={logout}>
+              <form action={logout.bind(null, locale)}>
                 <Button variant="ghost" size="sm" type="submit">{t('logout')}</Button>
               </form>
             </>

@@ -35,9 +35,8 @@ export async function signup(formData: FormData) {
   redirect(`/${locale}/dashboard`)
 }
 
-export async function logout() {
+export async function logout(locale: string) {
   const supabase = await createClient()
-  const locale = 'ko'
 
   await supabase.auth.signOut()
   revalidatePath('/', 'layout')
