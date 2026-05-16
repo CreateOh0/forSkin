@@ -3,9 +3,6 @@ import { z } from 'zod'
 import { env } from '@/lib/env'
 import { getAnalysisSystemPrompt, type Locale, type SkinAnalysisResult } from './prompts'
 
-// CJS build supports factory call (without new) — required for Vitest mock compatibility
-type AnthropicFactory = (config: { apiKey: string }) => InstanceType<typeof Anthropic>
-
 const SkinAnalysisSchema = z.object({
   skin_type: z.string().min(1),
   hydration_level: z.number().int().min(1).max(10),
@@ -27,7 +24,7 @@ export async function analyzeSkin(
   imageBase64: string,
   locale: Locale
 ): Promise<{ result: SkinAnalysisResult; usage: { input_tokens: number; output_tokens: number } }> {
-  const client = (Anthropic as unknown as AnthropicFactory)({ apiKey: env.ANTHROPIC_API_KEY })
+  const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY })
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 2048,

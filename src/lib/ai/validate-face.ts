@@ -2,14 +2,11 @@ import Anthropic from '@anthropic-ai/sdk'
 import { env } from '@/lib/env'
 import { getValidationPrompt, type FaceValidationResult } from './prompts'
 
-type AnthropicFactory = (config: { apiKey: string }) => InstanceType<typeof Anthropic>
-
 export async function validateFace(imageBase64: string): Promise<{
   result: FaceValidationResult
   usage: { input_tokens: number; output_tokens: number }
 }> {
-  // CJS build supports factory call (without new) — required for Vitest mock compatibility
-  const client = (Anthropic as unknown as AnthropicFactory)({ apiKey: env.ANTHROPIC_API_KEY })
+  const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY })
   const response = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: 256,

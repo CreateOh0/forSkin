@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 vi.mock('@anthropic-ai/sdk', () => ({
-  default: vi.fn(() => ({
+  default: vi.fn().mockImplementation(() => ({
     messages: {
       create: vi.fn(),
     },
@@ -18,7 +18,7 @@ describe('validateFace', () => {
   beforeEach(async () => {
     const Anthropic = (await import('@anthropic-ai/sdk')).default as ReturnType<typeof vi.fn>
     mockCreate = vi.fn()
-    Anthropic.mockReturnValue({ messages: { create: mockCreate } })
+    Anthropic.mockImplementation(() => ({ messages: { create: mockCreate } }))
     vi.resetModules()
   })
 
