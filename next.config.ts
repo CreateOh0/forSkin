@@ -4,6 +4,7 @@ import type { NextConfig } from 'next'
 const withNextIntl = createNextIntlPlugin('./src/lib/i18n/request.ts')
 
 const nextConfig: NextConfig = {
+  transpilePackages: ['@anthropic-ai/sdk'],
   images: {
     remotePatterns: [
       {
