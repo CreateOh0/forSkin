@@ -21,16 +21,16 @@ export async function Header({ locale }: Props) {
   return (
     <header className="border-b">
       <div className="container mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href={`/${locale}`} className="font-bold text-lg">forSkin</Link>
-        <nav className="flex items-center gap-3">
+        <Link href={`/${locale}`} className="font-bold text-lg shrink-0">forSkin</Link>
+        <nav className="flex items-center gap-1 sm:gap-3 overflow-x-auto">
           {user ? (
             <>
-              <Link href={`/${locale}/analyze`} className="text-sm hover:underline">{t('analyze')}</Link>
-              <Link href={`/${locale}/dashboard`} className="text-sm hover:underline">{t('dashboard')}</Link>
-              <span className="text-sm text-muted-foreground">{creditBalance} {t('credits')}</span>
-              <Link href={`/${locale}/profile`} className="text-sm hover:underline">{t('profile')}</Link>
+              <Link href={`/${locale}/analyze`} className="text-sm hover:underline whitespace-nowrap px-1">{t('analyze')}</Link>
+              <Link href={`/${locale}/dashboard`} className="text-sm hover:underline whitespace-nowrap px-1 hidden sm:inline">{t('dashboard')}</Link>
+              <span className="text-sm text-muted-foreground whitespace-nowrap px-1">{creditBalance} {t('credits')}</span>
+              <Link href={`/${locale}/profile`} className="text-sm hover:underline whitespace-nowrap px-1 hidden sm:inline">{t('profile')}</Link>
               <form action={logout.bind(null, locale)}>
-                <Button variant="ghost" size="sm" type="submit">{t('logout')}</Button>
+                <Button variant="ghost" size="sm" type="submit" className="whitespace-nowrap text-xs sm:text-sm">{t('logout')}</Button>
               </form>
             </>
           ) : (
