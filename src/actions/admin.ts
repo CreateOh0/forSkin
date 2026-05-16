@@ -6,8 +6,9 @@ import { revalidatePath } from 'next/cache'
 
 async function requireAdmin(): Promise<{ userId: string } | { error: string }> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'Unauthorized' }
+  const { data, error: authError } = await supabase.auth.getUser()
+  if (authError || !data.user) return { error: 'Unauthorized' }
+  const user = data.user
 
   const adminSupabase = createAdminClient()
   const { data: profile } = await adminSupabase
@@ -72,7 +73,7 @@ export async function getUsers(
   page = 0
 ): Promise<{ users: AdminUser[]; total: number; error?: string }> {
   const auth = await requireAdmin()
-  if ('error' in auth) return { users: [], total: 0, error: (auth as { error: string }).error }
+  if ('error' in auth) return { users: [], total: 0, error: auth.error }
 
   const supabase = createAdminClient()
   const pageSize = 10
@@ -100,10 +101,13 @@ export async function getUsers(
 
   const balanceMap = Object.fromEntries((credits ?? []).map(c => [c.user_id, c.balance]))
 
-  const { data: authList } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 })
-  const bannedMap = Object.fromEntries(
-    (authList?.users ?? []).map(u => [u.id, u.banned_until ?? null])
-  )
+  const bannedMap: Record<string, string | null> = {}
+  for (const uid of userIds) {
+    const { data: authUser } = await supabase.auth.admin.getUserById(uid)
+    if (authUser?.user) {
+      bannedMap[uid] = authUser.user.banned_until ?? null
+    }
+  }
 
   const result: AdminUser[] = (users ?? []).map(u => ({
     id: u.id,
@@ -124,9 +128,9 @@ export type OverviewData = {
   newUsers: number
 }
 
-export async function getAdminOverview(): Promise<OverviewData> {
+export async function getAdminOverview(): Promise<OverviewData & { error?: string }> {
   const auth = await requireAdmin()
-  if ('error' in auth) return { todayAnalyses: 0, todayCost: 0, newUsers: 0 }
+  if ('error' in auth) return { todayAnalyses: 0, todayCost: 0, newUsers: 0, error: auth.error }
 
   const supabase = createAdminClient()
   const todayStart = new Date()
@@ -142,12 +146,12 @@ export async function getAdminOverview(): Promise<OverviewData> {
   const todayAnalyses = analyses?.length ?? 0
   const todayCost = (analyses ?? []).reduce((sum, a) => sum + (a.estimated_cost_usd ?? 0), 0)
 
-  const { data: users } = await supabase
+  const { count: userCount } = await supabase
     .from('users')
-    .select('id', { count: 'exact' })
+    .select('*', { count: 'exact', head: true })
     .gte('created_at', todayISO)
 
-  const newUsers = users?.length ?? 0
+  const newUsers = userCount ?? 0
 
   return { todayAnalyses, todayCost, newUsers }
 }

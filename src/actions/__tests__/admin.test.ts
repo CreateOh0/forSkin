@@ -26,7 +26,6 @@ describe('adjustCredit', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockUserSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'admin-1' } } })
-    mockAdminSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'admin-1' } } })
     const mockSelect = vi.fn().mockReturnThis()
     const mockEq = vi.fn().mockReturnThis()
     const mockSingle = vi.fn().mockResolvedValue({ data: { role: 'admin' }, error: null })
@@ -68,7 +67,6 @@ describe('setSuspension', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockUserSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'admin-1' } } })
-    mockAdminSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'admin-1' } } })
     const mockSelect = vi.fn().mockReturnThis()
     const mockEq = vi.fn().mockReturnThis()
     const mockSingle = vi.fn().mockResolvedValue({ data: { role: 'admin' }, error: null })
@@ -89,5 +87,11 @@ describe('setSuspension', () => {
     const result = await setSuspension('user-1', false)
     expect(mockAdminUsers.updateUserById).toHaveBeenCalledWith('user-1', { ban_duration: 'none' })
     expect(result).toEqual({})
+  })
+
+  it('returns error when updateUserById fails', async () => {
+    mockAdminUsers.updateUserById.mockResolvedValue({ error: { message: 'auth error' } })
+    const result = await setSuspension('user-1', true)
+    expect(result).toEqual({ error: 'auth error' })
   })
 })
