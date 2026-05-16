@@ -8,7 +8,12 @@ export type CreditTransactionType = 'signup' | 'purchase' | 'rating' | 'streak' 
 export interface Database {
   public: {
     Views: Record<string, never>
-    Functions: Record<string, never>
+    Functions: {
+      adjust_credit: {
+        Args: { p_user_id: string; p_delta: number; p_admin_note: string }
+        Returns: void
+      }
+    }
     Enums: Record<string, never>
     Tables: {
       users: {
