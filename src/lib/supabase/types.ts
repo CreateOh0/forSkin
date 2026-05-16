@@ -3,7 +3,7 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Locale = 'ko' | 'en' | 'ja'
 export type UserRole = 'user' | 'admin'
 export type AnalysisStatus = 'pending' | 'validating' | 'processing' | 'completed' | 'failed'
-export type CreditTransactionType = 'signup' | 'purchase' | 'rating' | 'streak' | 'referral' | 'analysis' | 'refund'
+export type CreditTransactionType = 'signup' | 'purchase' | 'rating' | 'streak' | 'referral' | 'analysis' | 'refund' | 'admin'
 
 export interface Database {
   public: {
@@ -54,6 +54,9 @@ export interface Database {
           original_deleted_at: string | null
           prompt_version_id: string | null
           created_at: string
+          input_tokens: number | null
+          output_tokens: number | null
+          estimated_cost_usd: number | null
         }
         Insert: {
           id?: string
@@ -67,6 +70,9 @@ export interface Database {
           original_deleted_at?: string | null
           prompt_version_id?: string | null
           created_at?: string
+          input_tokens?: number | null
+          output_tokens?: number | null
+          estimated_cost_usd?: number | null
         }
         Update: {
           id?: string
@@ -80,6 +86,9 @@ export interface Database {
           original_deleted_at?: string | null
           prompt_version_id?: string | null
           created_at?: string
+          input_tokens?: number | null
+          output_tokens?: number | null
+          estimated_cost_usd?: number | null
         }
         Relationships: []
       }
