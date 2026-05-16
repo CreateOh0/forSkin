@@ -44,6 +44,30 @@ export async function logout() {
   redirect(`/${locale}`)
 }
 
+export async function requestPasswordReset(formData: FormData) {
+  const supabase = await createClient()
+  const email = formData.get('email') as string
+  const locale = formData.get('locale') as string ?? 'ko'
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/auth/reset-password`,
+  })
+  if (error) return { error: error.message }
+  return { success: true }
+}
+
+export async function updatePassword(formData: FormData) {
+  const supabase = await createClient()
+  const password = formData.get('password') as string
+  const locale = formData.get('locale') as string ?? 'ko'
+
+  const { error } = await supabase.auth.updateUser({ password })
+  if (error) return { error: error.message }
+
+  revalidatePath('/', 'layout')
+  redirect(`/${locale}/dashboard`)
+}
+
 export async function loginWithGoogle(locale: string) {
   const supabase = await createClient()
   const { data, error } = await supabase.auth.signInWithOAuth({
