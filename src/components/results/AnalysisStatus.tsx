@@ -22,9 +22,9 @@ export function AnalysisStatus({ analysisId, locale }: Props) {
   useEffect(() => {
     if (status === 'completed' && !navigatingRef.current) {
       navigatingRef.current = true
-      router.push(`/${locale}/results/${analysisId}`)
+      window.location.reload()
     }
-  }, [status, router, locale, analysisId])
+  }, [status])
 
   if (status === 'failed') {
     return (
