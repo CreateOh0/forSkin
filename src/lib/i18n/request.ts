@@ -1,5 +1,5 @@
 import { getRequestConfig } from 'next-intl/server'
-import { cookies } from 'next/headers'
+import { hasLocale } from 'next-intl'
 
 export const locales = ['ko', 'en', 'ja'] as const
 export const defaultLocale = 'ko' as const
@@ -10,9 +10,10 @@ const messageImports = {
   ja: () => import('../../../messages/ja.json'),
 }
 
-export default getRequestConfig(async () => {
-  const cookieStore = await cookies()
-  const locale = (cookieStore.get('locale')?.value ?? defaultLocale) as 'ko' | 'en' | 'ja'
+export default getRequestConfig(async ({ requestLocale }) => {
+  // Corresponds to the [locale] URL segment — takes priority over cookies
+  const requested = await requestLocale
+  const locale = hasLocale(locales, requested) ? requested : defaultLocale
   const messages = (await messageImports[locale]()).default
   return { locale, messages }
 })

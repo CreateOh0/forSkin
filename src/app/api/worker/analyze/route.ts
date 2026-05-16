@@ -8,6 +8,8 @@ import { env } from '@/lib/env'
 import type { Locale, SkinAnalysisResult } from '@/lib/ai/prompts'
 import type { AnalysisStatus, Json } from '@/lib/supabase/types'
 
+const TERMINAL_STATUSES: AnalysisStatus[] = ['completed', 'failed']
+
 export async function POST(req: NextRequest) {
   const receiver = new Receiver({
     currentSigningKey: env.QSTASH_CURRENT_SIGNING_KEY,
@@ -29,10 +31,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
   }
 
-  const { analysis_id, user_id } = JSON.parse(body) as {
-    analysis_id: string
-    user_id: string
-  }
+  const { analysis_id } = JSON.parse(body) as { analysis_id: string }
 
   const supabase = createAdminClient()
 
@@ -42,13 +41,23 @@ export async function POST(req: NextRequest) {
 
   const { data: analysis } = await supabase
     .from('analyses')
-    .select('image_url, locale')
+    .select('image_url, locale, status, user_id')
     .eq('id', analysis_id)
     .single()
 
   if (!analysis) {
     return NextResponse.json({ error: 'Analysis not found' }, { status: 404 })
   }
+
+  // Idempotency guard: QStash may retry — skip if already terminal or in-flight
+  if (
+    TERMINAL_STATUSES.includes(analysis.status as AnalysisStatus) ||
+    analysis.status === 'processing'
+  ) {
+    return NextResponse.json({ skipped: true, status: analysis.status })
+  }
+
+  const user_id = analysis.user_id!
 
   const { data: imageData, error: downloadError } = await supabase.storage
     .from('images')

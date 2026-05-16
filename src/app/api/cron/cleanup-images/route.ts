@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
   const { data: expired, error } = await supabase
     .from('analyses')
     .select('id, user_id, image_url')
+    .in('status', ['completed', 'failed'])
     .lt('original_expires_at', new Date().toISOString())
     .is('original_deleted_at', null)
     .not('image_url', 'is', null)

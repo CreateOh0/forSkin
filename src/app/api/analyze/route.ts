@@ -74,11 +74,17 @@ export async function POST(req: NextRequest) {
   }
 
   const qstash = new QStashClient({ token: env.QSTASH_TOKEN, baseUrl: env.QSTASH_URL })
-  await qstash.publishJSON({
-    url: `${env.NEXT_PUBLIC_APP_URL}/api/worker/analyze`,
-    body: { analysis_id: analysisId, user_id: user.id },
-    retries: 2,
-  })
+  try {
+    await qstash.publishJSON({
+      url: `${env.NEXT_PUBLIC_APP_URL}/api/worker/analyze`,
+      body: { analysis_id: analysisId },
+      retries: 2,
+    })
+  } catch {
+    // Worker never queued — mark failed so the row doesn't stay stuck at 'validating'
+    await supabase.from('analyses').update({ status: 'failed' }).eq('id', analysisId)
+    return NextResponse.json({ error: 'Failed to queue analysis' }, { status: 500 })
+  }
 
   return NextResponse.json({ analysis_id: analysisId })
 }
