@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Database error' }, { status: 500 })
   }
 
-  const qstash = new QStashClient({ token: env.QSTASH_TOKEN })
+  const qstash = new QStashClient({ token: env.QSTASH_TOKEN, baseUrl: env.QSTASH_URL })
   await qstash.publishJSON({
     url: `${env.NEXT_PUBLIC_APP_URL}/api/worker/analyze`,
     body: { analysis_id: analysisId, user_id: user.id },

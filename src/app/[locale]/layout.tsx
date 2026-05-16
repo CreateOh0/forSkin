@@ -3,7 +3,6 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
-import '../globals.css'
 
 export const metadata: Metadata = {
   title: 'forSkin — AI Skin Analysis',
@@ -21,14 +20,10 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
-      <body className="min-h-screen flex flex-col">
-        <NextIntlClientProvider messages={messages}>
-          <Header locale={locale} />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <Header locale={locale} />
+      <div className="flex-1">{children}</div>
+      <Footer />
+    </NextIntlClientProvider>
   )
 }
