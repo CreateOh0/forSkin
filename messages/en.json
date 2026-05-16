@@ -152,5 +152,16 @@
     "passwordMismatch": "Passwords do not match",
     "resetSuccess": "Password updated successfully",
     "update": "Update Password"
+  },
+  "Error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again.",
+    "retry": "Try again",
+    "goHome": "Go home"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you requested does not exist.",
+    "goHome": "Go home"
   }
 }

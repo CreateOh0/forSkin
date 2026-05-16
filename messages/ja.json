@@ -152,5 +152,16 @@
     "passwordMismatch": "パスワードが一致しません",
     "resetSuccess": "パスワードが更新されました",
     "update": "パスワードを更新"
+  },
+  "Error": {
+    "title": "エラーが発生しました",
+    "description": "予期しないエラーが発生しました。もう一度お試しください。",
+    "retry": "再試行",
+    "goHome": "ホームへ"
+  },
+  "NotFound": {
+    "title": "ページが見つかりません",
+    "description": "お探しのページは存在しません。",
+    "goHome": "ホームへ"
   }
 }
