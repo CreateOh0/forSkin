@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useAnalysisStatus } from '@/hooks/useAnalysisStatus'
@@ -17,9 +17,11 @@ export function AnalysisStatus({ analysisId, locale }: Props) {
   const t = useTranslations('Results')
   const router = useRouter()
   const { status } = useAnalysisStatus(analysisId)
+  const navigatingRef = useRef(false)
 
   useEffect(() => {
-    if (status === 'completed') {
+    if (status === 'completed' && !navigatingRef.current) {
+      navigatingRef.current = true
       router.push(`/${locale}/results/${analysisId}`)
     }
   }, [status, router, locale, analysisId])

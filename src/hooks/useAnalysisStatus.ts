@@ -15,9 +15,10 @@ export function useAnalysisStatus(analysisId: string): AnalysisState {
   const [state, setState] = useState<AnalysisState>({ status: 'pending' })
   const statusRef = useRef<AnalysisStatus>('pending')
 
-  const updateStatus = (status: AnalysisStatus) => {
-    statusRef.current = status
-    setState({ status })
+  const updateStatus = (newStatus: AnalysisStatus) => {
+    if (statusRef.current === newStatus) return
+    statusRef.current = newStatus
+    setState({ status: newStatus })
   }
 
   useEffect(() => {
