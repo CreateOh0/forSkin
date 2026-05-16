@@ -30,14 +30,17 @@ describe('validateFace', () => {
           text: '{"face_detected":true,"quality_pass":true,"issues":[]}',
         },
       ],
+      usage: { input_tokens: 50, output_tokens: 30 },
     })
 
     const { validateFace } = await import('../validate-face')
     const result = await validateFace('base64imagedata')
 
-    expect(result.face_detected).toBe(true)
-    expect(result.quality_pass).toBe(true)
-    expect(result.issues).toEqual([])
+    expect(result.result.face_detected).toBe(true)
+    expect(result.result.quality_pass).toBe(true)
+    expect(result.result.issues).toEqual([])
+    expect(result.usage.input_tokens).toBe(50)
+    expect(result.usage.output_tokens).toBe(30)
   })
 
   it('returns face_detected false for no_face issue', async () => {
@@ -48,25 +51,27 @@ describe('validateFace', () => {
           text: '{"face_detected":false,"quality_pass":false,"issues":["no_face"]}',
         },
       ],
+      usage: { input_tokens: 50, output_tokens: 30 },
     })
 
     const { validateFace } = await import('../validate-face')
     const result = await validateFace('base64imagedata')
 
-    expect(result.face_detected).toBe(false)
-    expect(result.issues).toContain('no_face')
+    expect(result.result.face_detected).toBe(false)
+    expect(result.result.issues).toContain('no_face')
   })
 
   it('handles malformed JSON gracefully', async () => {
     mockCreate.mockResolvedValue({
       content: [{ type: 'text', text: 'not valid json at all' }],
+      usage: { input_tokens: 50, output_tokens: 30 },
     })
 
     const { validateFace } = await import('../validate-face')
     const result = await validateFace('base64imagedata')
 
-    expect(result.face_detected).toBe(false)
-    expect(result.quality_pass).toBe(false)
-    expect(result.issues).toContain('no_face')
+    expect(result.result.face_detected).toBe(false)
+    expect(result.result.quality_pass).toBe(false)
+    expect(result.result.issues).toContain('no_face')
   })
 })
