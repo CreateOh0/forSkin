@@ -164,6 +164,36 @@ export interface Database {
         }
         Relationships: []
       }
+      recommendation_ratings: {
+        Row: {
+          id: string
+          analysis_id: string
+          user_id: string
+          category: string
+          rating: number | null
+          comment: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          analysis_id: string
+          user_id: string
+          category: string
+          rating?: number | null
+          comment?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          analysis_id?: string
+          user_id?: string
+          category?: string
+          rating?: number | null
+          comment?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
       plans: {
         Row: {
           id: string
