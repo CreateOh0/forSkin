@@ -35,6 +35,22 @@ export function AnalysisStatus({ analysisId, locale }: Props) {
     )
   }
 
+  if (status === 'error') {
+    return (
+      <div className="text-center py-16 space-y-4">
+        <div className="text-muted-foreground text-5xl">⚠</div>
+        <h2 className="text-xl font-semibold">{t('statusError')}</h2>
+        <p className="text-muted-foreground max-w-xs mx-auto">{t('statusErrorDescription')}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className={buttonVariants({ variant: 'outline' })}
+        >
+          {t('retryAnalysis')}
+        </button>
+      </div>
+    )
+  }
+
   const messageKey =
     status === 'completed'
       ? 'statusLoadingResults'

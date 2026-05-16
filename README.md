@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# forSkin — AI Skin Analysis
 
-## Getting Started
+Next.js App Router + Supabase + Claude AI + QStash 기반 피부 분석 서비스.
 
-First, run the development server:
+## 로컬 개발
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 환경 변수 설정
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`.env.local` 파일 생성:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://<project>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
+SUPABASE_SERVICE_ROLE_KEY=<service-role-key>   # 서버 전용, 클라이언트 노출 금지
 
-## Learn More
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000       # 프로덕션: https://for-skin.vercel.app
 
-To learn more about Next.js, take a look at the following resources:
+# Anthropic
+ANTHROPIC_API_KEY=sk-ant-...
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# QStash (Upstash)
+QSTASH_TOKEN=<token>
+QSTASH_CURRENT_SIGNING_KEY=<signing-key>
+QSTASH_NEXT_SIGNING_KEY=<next-signing-key>
+QSTASH_URL=https://qstash-us-east-1.upstash.io  # us-east-1 엔드포인트 고정
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Cron
+CRON_SECRET=<random-secret>   # Vercel cron 요청 인증용
+```
 
-## Deploy on Vercel
+## Supabase 설정
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### DB 마이그레이션
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# 순서대로 실행
+supabase db push
+# 또는 Supabase MCP / Dashboard SQL Editor에서
+# supabase/migrations/ 파일을 001 → 003 순서로 실행
+```
+
+### Storage 버킷
+
+Supabase Dashboard → Storage에서 `images` 버킷 생성 (Public: off).
+
+### Google OAuth 설정
+
+1. [Google Cloud Console](https://console.cloud.google.com) → OAuth 2.0 클라이언트 ID 생성
+2. 승인된 리디렉션 URI 추가:
+   ```
+   https://<supabase-project>.supabase.co/auth/v1/callback
+   ```
+3. Supabase Dashboard → Authentication → Providers → Google
+   - Client ID, Client Secret 입력
+4. Supabase Dashboard → Authentication → URL Configuration → Redirect URLs에 추가:
+   ```
+   http://localhost:3000/auth/callback
+   https://for-skin.vercel.app/auth/callback
+   ```
+   > next-intl 미들웨어가 `/auth/callback` → `/{locale}/auth/callback`으로 자동 리다이렉트하므로
+   > 루트 경로(`/auth/callback`)를 등록하면 됩니다.
+
+## QStash Worker
+
+`/api/worker/analyze`는 QStash 서명 검증 후 Claude AI 분석을 실행합니다.
+로컬 테스트 시 QStash → `ngrok` 또는 `localhost.run`으로 터널 필요.
+
+## Vercel Cron
+
+`vercel.json`의 cron job은 `Authorization: Bearer $CRON_SECRET` 헤더로 인증합니다.
+Vercel Dashboard → Environment Variables에 `CRON_SECRET` 설정 필수.
+
+## 테스트
+
+```bash
+npm run test:run   # 단위 테스트 (vitest)
+```
+
+## 배포
+
+Vercel에 연결 후 위 환경 변수를 모두 설정하면 자동 배포됩니다.
+`SUPABASE_SERVICE_ROLE_KEY`는 반드시 **Server-only** (Preview/Production)로만 설정하세요.

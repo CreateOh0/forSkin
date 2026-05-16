@@ -97,6 +97,8 @@
     "statusValidating": "얼굴을 인식하고 있습니다...",
     "statusProcessing": "피부 상태를 분석하고 있습니다...",
     "statusLoadingResults": "결과를 불러오는 중...",
+    "statusError": "연결에 문제가 발생했습니다",
+    "statusErrorDescription": "네트워크 오류로 상태를 확인할 수 없습니다. 페이지를 새로고침해 주세요.",
     "failed": "분석에 실패했습니다",
     "failedDescription": "이미지 품질이 분석 기준을 충족하지 못했습니다. 밝은 곳에서 정면 사진을 다시 촬영해 주세요.",
     "retryAnalysis": "다시 분석하기",

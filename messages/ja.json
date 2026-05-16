@@ -97,6 +97,8 @@
     "statusValidating": "顔を認識しています...",
     "statusProcessing": "肌状態を分析しています...",
     "statusLoadingResults": "結果を読み込んでいます...",
+    "statusError": "接続に問題が発生しました",
+    "statusErrorDescription": "ネットワークエラーにより状態を確認できません。ページを更新してください。",
     "failed": "分析に失敗しました",
     "failedDescription": "画像の品質が基準を満たしていませんでした。明るい場所で正面から撮り直してください。",
     "retryAnalysis": "再分析する",

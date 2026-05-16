@@ -10,7 +10,7 @@ const mockSupabase = {
   from: vi.fn().mockReturnValue({
     select: vi.fn().mockReturnValue({
       eq: vi.fn().mockReturnValue({
-        single: vi.fn().mockResolvedValue({ data: { status: 'validating' } }),
+        single: vi.fn().mockResolvedValue({ data: { status: 'validating' }, error: null }),
       }),
     }),
   }),
@@ -32,7 +32,7 @@ describe('useAnalysisStatus', () => {
     mockSupabase.from.mockReturnValue({
       select: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
-          single: vi.fn().mockResolvedValue({ data: { status: 'validating' } }),
+          single: vi.fn().mockResolvedValue({ data: { status: 'validating' }, error: null }),
         }),
       }),
     })
@@ -55,5 +55,21 @@ describe('useAnalysisStatus', () => {
   it('subscribes to realtime channel', () => {
     renderHook(() => useAnalysisStatus('analysis-123'))
     expect(mockSupabase.channel).toHaveBeenCalledWith('analysis:analysis-123')
+  })
+
+  it('sets error status on DB query failure', async () => {
+    mockSupabase.from.mockReturnValue({
+      select: vi.fn().mockReturnValue({
+        eq: vi.fn().mockReturnValue({
+          single: vi.fn().mockResolvedValue({ data: null, error: { message: 'Network error' } }),
+        }),
+      }),
+    })
+
+    const { result } = renderHook(() => useAnalysisStatus('analysis-123'))
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 0))
+    })
+    expect(result.current.status).toBe('error')
   })
 })

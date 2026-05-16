@@ -4,18 +4,20 @@ import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { AnalysisStatus } from '@/lib/supabase/types'
 
+type ExtendedStatus = AnalysisStatus | 'error'
+
 interface AnalysisState {
-  status: AnalysisStatus
+  status: ExtendedStatus
 }
 
-const TERMINAL_STATUSES: AnalysisStatus[] = ['completed', 'failed']
+const TERMINAL_STATUSES: ExtendedStatus[] = ['completed', 'failed', 'error']
 const POLL_INTERVAL_MS = 3000
 
 export function useAnalysisStatus(analysisId: string): AnalysisState {
   const [state, setState] = useState<AnalysisState>({ status: 'pending' })
-  const statusRef = useRef<AnalysisStatus>('pending')
+  const statusRef = useRef<ExtendedStatus>('pending')
 
-  const updateStatus = (newStatus: AnalysisStatus) => {
+  const updateStatus = (newStatus: ExtendedStatus) => {
     if (statusRef.current === newStatus) return
     statusRef.current = newStatus
     setState({ status: newStatus })
@@ -25,11 +27,16 @@ export function useAnalysisStatus(analysisId: string): AnalysisState {
     const supabase = createClient()
 
     const fetchStatus = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('analyses')
         .select('status')
         .eq('id', analysisId)
         .single()
+
+      if (error) {
+        updateStatus('error')
+        return
+      }
       if (data?.status) updateStatus(data.status as AnalysisStatus)
     }
 
@@ -49,7 +56,11 @@ export function useAnalysisStatus(analysisId: string): AnalysisState {
           updateStatus(payload.new.status as AnalysisStatus)
         }
       )
-      .subscribe()
+      .subscribe((channelStatus) => {
+        if (channelStatus === 'CHANNEL_ERROR' || channelStatus === 'TIMED_OUT') {
+          // Realtime failed — polling continues as fallback, don't mark error yet
+        }
+      })
 
     const pollInterval = setInterval(() => {
       if (TERMINAL_STATUSES.includes(statusRef.current)) {
