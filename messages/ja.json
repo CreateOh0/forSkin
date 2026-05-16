@@ -29,7 +29,14 @@
     "save": "保存",
     "saved": "保存しました",
     "preferredLocale": "表示言語",
-    "deleteAccount": "アカウント削除"
+    "deleteAccount": "アカウント削除",
+    "avatar": "プロフィール写真",
+    "changeAvatar": "写真を変更",
+    "deleteAccountTitle": "アカウント削除",
+    "deleteAccountDescription": "アカウントを削除すると、すべてのデータが完全に削除されます。",
+    "deleteAccountConfirm": "確認のため下に「削除」と入力してください",
+    "deleteAccountButton": "アカウントを完全に削除",
+    "deleteAccountPlaceholder": "削除"
   },
   "Analyze": {
     "title": "肌分析",
@@ -67,5 +74,45 @@
     "comparedToPrevious": "前回比",
     "improvement": "改善",
     "disclaimer": "この分析結果は専門的な医療診断の代替ではなく、参考目的のみにご使用ください。"
+  },
+  "Dashboard": {
+    "title": "ダッシュボード",
+    "totalAnalyses": "総分析回数",
+    "latestScore": "最新スキンスコア",
+    "topConcern": "主な肌の悩み",
+    "noAnalyses": "まだ分析履歴がありません",
+    "startAnalysis": "最初の分析を始める",
+    "periodWeek": "1週",
+    "periodMonth": "1ヶ月",
+    "periodThreeMonths": "3ヶ月",
+    "periodAll": "全期間",
+    "scoreHistory": "スコア推移",
+    "analysisHistory": "分析履歴",
+    "date": "日付",
+    "score": "スコア",
+    "deleteAnalysis": "削除",
+    "deleteConfirm": "この分析を削除しますか？元に戻せません。",
+    "rateRecommendation": "ルーティンを評価",
+    "ratedLabel": "評価済み",
+    "submitRating": "評価を送信",
+    "ratingComment": "コメント（任意）",
+    "ratingSubmitted": "評価が保存されました",
+    "effectiveIngredients": "効果があった成分",
+    "noRatings": "ルーティンを評価すると成分が集計されます"
+  },
+  "ForgotPassword": {
+    "title": "パスワードを忘れた方",
+    "description": "メールアドレスを入力するとリセットリンクをお送りします",
+    "email": "メールアドレス",
+    "send": "リセットリンクを送信",
+    "sent": "メールをご確認ください",
+    "sentDescription": "パスワードリセットリンクが送信されました",
+    "backToLogin": "ログインに戻る",
+    "resetTitle": "新しいパスワードを設定",
+    "newPassword": "新しいパスワード",
+    "confirmPassword": "パスワードの確認",
+    "passwordMismatch": "パスワードが一致しません",
+    "resetSuccess": "パスワードが更新されました",
+    "update": "パスワードを更新"
   }
 }

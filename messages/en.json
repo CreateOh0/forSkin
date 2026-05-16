@@ -29,7 +29,14 @@
     "save": "Save",
     "saved": "Saved",
     "preferredLocale": "Preferred Language",
-    "deleteAccount": "Delete Account"
+    "deleteAccount": "Delete Account",
+    "avatar": "Profile Photo",
+    "changeAvatar": "Change Photo",
+    "deleteAccountTitle": "Delete Account",
+    "deleteAccountDescription": "Deleting your account permanently removes all your data.",
+    "deleteAccountConfirm": "Type 'delete' below to confirm",
+    "deleteAccountButton": "Permanently Delete Account",
+    "deleteAccountPlaceholder": "delete"
   },
   "Analyze": {
     "title": "Skin Analysis",
@@ -67,5 +74,45 @@
     "comparedToPrevious": "vs last analysis",
     "improvement": "improvement",
     "disclaimer": "This analysis is not a substitute for professional medical diagnosis and should be used for reference only."
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "totalAnalyses": "Total Analyses",
+    "latestScore": "Latest Skin Score",
+    "topConcern": "Top Skin Concern",
+    "noAnalyses": "No analyses yet",
+    "startAnalysis": "Start your first analysis",
+    "periodWeek": "1W",
+    "periodMonth": "1M",
+    "periodThreeMonths": "3M",
+    "periodAll": "All",
+    "scoreHistory": "Score History",
+    "analysisHistory": "Analysis History",
+    "date": "Date",
+    "score": "Score",
+    "deleteAnalysis": "Delete",
+    "deleteConfirm": "Delete this analysis? This cannot be undone.",
+    "rateRecommendation": "Rate Routine",
+    "ratedLabel": "Rated",
+    "submitRating": "Submit Rating",
+    "ratingComment": "Comment (optional)",
+    "ratingSubmitted": "Rating saved",
+    "effectiveIngredients": "Effective Ingredients",
+    "noRatings": "Rate your routines to see effective ingredients"
+  },
+  "ForgotPassword": {
+    "title": "Forgot Password",
+    "description": "Enter your email and we'll send you a reset link",
+    "email": "Email",
+    "send": "Send Reset Link",
+    "sent": "Check your email",
+    "sentDescription": "A password reset link has been sent",
+    "backToLogin": "Back to login",
+    "resetTitle": "Set New Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "passwordMismatch": "Passwords do not match",
+    "resetSuccess": "Password updated successfully",
+    "update": "Update Password"
   }
 }
