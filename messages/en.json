@@ -96,6 +96,7 @@
     "statusPending": "Preparing analysis...",
     "statusValidating": "Detecting face...",
     "statusProcessing": "Analyzing skin condition...",
+    "statusLoadingResults": "Loading your results...",
     "failed": "Analysis failed",
     "failedDescription": "Your image didn't meet quality requirements. Please retake in good lighting facing the camera directly.",
     "retryAnalysis": "Try Again",

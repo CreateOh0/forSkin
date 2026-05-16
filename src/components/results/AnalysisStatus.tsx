@@ -20,11 +20,21 @@ export function AnalysisStatus({ analysisId, locale }: Props) {
   const navigatingRef = useRef(false)
 
   useEffect(() => {
-    if (status === 'completed' && !navigatingRef.current) {
-      navigatingRef.current = true
+    if (status !== 'completed') return
+    if (navigatingRef.current) return
+    navigatingRef.current = true
+
+    // Same-URL navigation does not re-run the RSC tree; refresh loads new server output.
+    router.refresh()
+
+    const fallback = window.setTimeout(() => {
       window.location.reload()
+    }, 3000)
+
+    return () => {
+      window.clearTimeout(fallback)
     }
-  }, [status])
+  }, [status, router])
 
   if (status === 'failed') {
     return (
@@ -40,11 +50,13 @@ export function AnalysisStatus({ analysisId, locale }: Props) {
   }
 
   const messageKey =
-    status === 'validating'
-      ? 'statusValidating'
-      : status === 'processing'
-        ? 'statusProcessing'
-        : 'statusPending'
+    status === 'completed'
+      ? 'statusLoadingResults'
+      : status === 'validating'
+        ? 'statusValidating'
+        : status === 'processing'
+          ? 'statusProcessing'
+          : 'statusPending'
 
   return (
     <div className="flex flex-col items-center py-16 gap-6">

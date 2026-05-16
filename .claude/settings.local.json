@@ -6,7 +6,10 @@
       "Bash(npm run *)",
       "Bash(node -e \"const t = require\\('./node_modules/@supabase/ssr/package.json'\\); console.log\\(t.version\\)\")",
       "Bash(node -e \"const t = require\\('./node_modules/@supabase/supabase-js/package.json'\\); console.log\\(t.version\\)\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "mcp__plugin_vercel_vercel__get_runtime_logs",
+      "mcp__plugin_vercel_vercel__list_deployments",
+      "Bash(npx vitest *)"
     ]
   }
 }

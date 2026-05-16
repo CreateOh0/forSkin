@@ -96,6 +96,7 @@
     "statusPending": "분석 준비 중...",
     "statusValidating": "얼굴을 인식하고 있습니다...",
     "statusProcessing": "피부 상태를 분석하고 있습니다...",
+    "statusLoadingResults": "결과를 불러오는 중...",
     "failed": "분석에 실패했습니다",
     "failedDescription": "이미지 품질이 분석 기준을 충족하지 못했습니다. 밝은 곳에서 정면 사진을 다시 촬영해 주세요.",
     "retryAnalysis": "다시 분석하기",
