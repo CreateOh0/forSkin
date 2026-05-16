@@ -5,7 +5,7 @@ import { validateFace } from '@/lib/ai/validate-face'
 import { analyzeSkin } from '@/lib/ai/analyze-skin'
 import { deductCredit, refundCredit } from '@/lib/credits'
 import { env } from '@/lib/env'
-import type { Locale } from '@/lib/ai/prompts'
+import type { Locale, SkinAnalysisResult } from '@/lib/ai/prompts'
 import type { AnalysisStatus, Json } from '@/lib/supabase/types'
 
 export async function POST(req: NextRequest) {
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
   const imageBuffer = Buffer.from(await imageData.arrayBuffer())
   const imageBase64 = imageBuffer.toString('base64')
 
-  const validation = await validateFace(imageBase64)
+  const { result: validation, usage: validateUsage } = await validateFace(imageBase64)
 
   if (!validation.face_detected || !validation.quality_pass) {
     await updateStatus('failed')
@@ -78,18 +78,20 @@ export async function POST(req: NextRequest) {
 
   await updateStatus('processing')
 
-  let analysisResult
+  let analyzeResult: { result: SkinAnalysisResult; usage: { input_tokens: number; output_tokens: number } }
   try {
-    analysisResult = await analyzeSkin(imageBase64, analysis.locale as Locale)
+    analyzeResult = await analyzeSkin(imageBase64, analysis.locale as Locale)
   } catch {
     try {
-      analysisResult = await analyzeSkin(imageBase64, analysis.locale as Locale)
+      analyzeResult = await analyzeSkin(imageBase64, analysis.locale as Locale)
     } catch {
       await refundCredit(user_id, analysis_id, supabase)
       await updateStatus('failed')
       return NextResponse.json({ error: 'Analysis failed after retry' }, { status: 500 })
     }
   }
+  const analysisResult = analyzeResult.result
+  const analyzeUsage = analyzeResult.usage
 
   const { data: prevAnalysisRow } = await supabase
     .from('analyses')
@@ -134,6 +136,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Result save failed' }, { status: 500 })
   }
 
-  await updateStatus('completed')
+  const PRICE = {
+    SONNET_IN:  3.0  / 1_000_000,
+    SONNET_OUT: 15.0 / 1_000_000,
+    HAIKU_IN:   0.8  / 1_000_000,
+    HAIKU_OUT:  4.0  / 1_000_000,
+  }
+  const estimated_cost_usd =
+    analyzeUsage.input_tokens  * PRICE.SONNET_IN  +
+    analyzeUsage.output_tokens * PRICE.SONNET_OUT +
+    validateUsage.input_tokens * PRICE.HAIKU_IN   +
+    validateUsage.output_tokens * PRICE.HAIKU_OUT
+
+  await supabase.from('analyses').update({
+    status: 'completed',
+    input_tokens: analyzeUsage.input_tokens,
+    output_tokens: analyzeUsage.output_tokens,
+    estimated_cost_usd,
+  }).eq('id', analysis_id)
   return NextResponse.json({ success: true })
 }
