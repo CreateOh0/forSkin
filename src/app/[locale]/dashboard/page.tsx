@@ -32,16 +32,23 @@ export default async function DashboardPage({ params }: Props) {
 
   const ratedIds = new Set((ratedAnalyses ?? []).map(r => r.analysis_id))
 
+  type RawResultRow = {
+    overall_score: number | null
+    concerns: unknown
+    recommendations: unknown
+  }
   type RawAnalysis = {
     id: string
     created_at: string
     thumbnail_url: string | null
     status: string
-    analysis_results: Array<{
-      overall_score: number | null
-      concerns: unknown
-      recommendations: unknown
-    }>
+    analysis_results: RawResultRow[] | RawResultRow | null
+  }
+
+  // PostgREST returns one-to-one (UNIQUE) relations as an object, not array
+  const toResultArray = (r: RawResultRow[] | RawResultRow | null): RawResultRow[] => {
+    if (!r) return []
+    return Array.isArray(r) ? r : [r]
   }
 
   const analyses = (rawAnalyses as unknown as RawAnalysis[] ?? []).map(a => ({
@@ -49,9 +56,9 @@ export default async function DashboardPage({ params }: Props) {
     created_at: a.created_at,
     thumbnail_url: a.thumbnail_url,
     status: a.status,
-    analysis_results: a.analysis_results ?? [],
+    analysis_results: toResultArray(a.analysis_results),
     hasRating: ratedIds.has(a.id),
-    categories: (a.analysis_results?.[0]?.recommendations as Array<{ category: string }> ?? [])
+    categories: (toResultArray(a.analysis_results)[0]?.recommendations as Array<{ category: string }> ?? [])
       .map(r => r.category),
   }))
 
